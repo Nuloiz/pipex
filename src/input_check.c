@@ -34,20 +34,15 @@ int	checker_file(char **argv)
 static char	*get_path(char **envp)
 {
 	int		i;
-	char	*path;
 
 	i = 0;
-	path = NULL;
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], "PATH", 4))
-		{
-			path = envp[i] + 4;
-			break ;
-		}
+			return (envp[i] + 4);
 		i++;
 	}
-	return (path);
+	return (NULL);
 }
 
 char	*find_path(char *cmd, char **envp)
