@@ -4,7 +4,7 @@ CC := gcc
 
 CFLAGS := -Wall -Wextra -Werror -g
 # CFLAGS := $(CFLAGS) -fsanitize=address
-SRC := main.c input_check.c pipex.c cmd1.c cmd2.c free.c
+SRC := main.c input_check.c pipex.c cmds.c free.c
 
 SRC_DIR := src
 OBJ_DIR := obj
