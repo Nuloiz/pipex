@@ -31,7 +31,7 @@ static t_cmds	get_cmds(char **argv, char **envp)
 	return (cmds);
 }
 
-void	pipex(char **argv, char **envp)
+void	pipex(char **argv, char **envp, int fd1, int fd2)
 {
 	t_cmds	cmds;
 	pid_t	pid;
@@ -50,7 +50,7 @@ void	pipex(char **argv, char **envp)
 	}
 	else if (pid == 0)
 	{
-	//	cmd1
+		cmd1(cmds, fd1, fd2);
 	}
 	else
 	{
