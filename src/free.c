@@ -24,3 +24,15 @@ void	free_array(char **array)
 	}
 	free(array);
 }
+
+void	free_cmds(t_cmds cmds)
+{
+	if (cmds.cmd1)
+		free_array(cmds.cmd1);
+	if (cmds.cmd2)
+		free_array(cmds.cmd2);
+	if (cmds.path1)
+		free(cmds.path1);
+	if (cmds.path2)
+		free(cmds.path2);
+}
