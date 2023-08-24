@@ -34,21 +34,27 @@ static t_cmds	get_cmds(char **argv, char **envp)
 void	pipex(char **argv, char **envp)
 {
 	t_cmds	cmds;
-	int		fd1;
-	int		fd2;
+	pid_t	pid;
+	int		f[2];
 
 	cmds = get_cmds(argv, envp);
 	if (cmds.failed == 1)
 		return ;
-	if (execve(cmds.path1, cmds.cmd1, cmds.envp) == -1)
+	pipe(f);
+	pid = fork();
+	if (pid == -1)
 	{
-		perror("execve");
+		perror("fork");
 		free_cmds(cmds);
 		return ;
 	}
-	fd1 = open(argv[1], O_RDONLY);
-	fd2 = open(argv[4], O_WRONLY);
-	close (fd1);
-	close (fd2);
+	else if (pid == 0)
+	{
+	//	cmd1
+	}
+	else
+	{
+	//	cmd2
+	}
 	free_cmds(cmds);
 }

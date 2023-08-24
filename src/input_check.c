@@ -26,6 +26,8 @@ int	checker_file(char **argv)
 		close (fd1);
 		return (0);
 	}
+	close (fd1);
+	close (fd2);
 	return (1);
 }
 
