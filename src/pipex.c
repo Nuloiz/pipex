@@ -30,14 +30,8 @@ void	pipex(char **argv, char **envp, int fd1, int fd2)
 		return ;
 	}
 	else if (pid == 0)
-	{
-		if (!cmd_one(cmds, fd1, f))
-			return ;
-	}
+		cmd_one(cmds, fd1, f);
 	else
-	{
-		if (cmd_two(cmds, fd2, f))
-			return ;
-	}
+		cmd_two(cmds, fd2, f);
 	free_cmds(cmds);
 }
