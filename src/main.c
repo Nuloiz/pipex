@@ -21,8 +21,6 @@ int	main(int argc, char **argv, char **envp)
 		return (ft_printf("Invalid number of arguments"));
 	if (!checker_file(argv))
 		return (ft_printf("Invalid file names"));
-	if (!checker_cmd(argv, envp))
-		return (ft_printf("Invalid commands"));
 	fd1 = open (argv[1], O_RDONLY);
 	fd2 = open (argv[4], O_WRONLY);
 	pipex(argv, envp, fd1, fd2);

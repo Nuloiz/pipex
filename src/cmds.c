@@ -40,21 +40,22 @@ int	cmd_one(t_cmds cmds, int fd1, int *f)
 	{
 		perror("execve");
 		free_cmds(cmds);
+		close(fd1);
 		return (0);
 	}
-	close(fd1);
 	return (1);
 }
 
 int	cmd_two(t_cmds cmds, int fd2, int *f)
 {
-	dup2(fd2, STDIN_FILENO);
-	dup2(f[0], STDOUT_FILENO);
+	dup2(fd2, STDOUT_FILENO);
+	dup2(f[0], STDIN_FILENO);
 	close (f[1]);
 	if (execve(cmds.path2, cmds.cmd2, cmds.envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
+		close(fd2);
 		return (0);
 	}
 	close(fd2);
