@@ -43,6 +43,7 @@ int	cmd_one(t_cmds cmds, int fd1, int *f)
 		close(fd1);
 		return (0);
 	}
+	close (fd1);
 	return (1);
 }
 
@@ -58,6 +59,6 @@ int	cmd_two(t_cmds cmds, int fd2, int *f)
 		close(fd2);
 		return (0);
 	}
-	close(fd2);
+	close (fd2);
 	return (1);
 }

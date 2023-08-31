@@ -33,7 +33,6 @@ typedef struct s_cmds
 	int		failed;
 }				t_cmds;
 
-
 int		main(int argc, char **argv, char **envp);
 int		checker_file(char **argv);
 int		checker_cmd(char **argv, char **envp);

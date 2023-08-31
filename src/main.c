@@ -6,7 +6,7 @@
 /*   By: nschutz <nschutz@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:50:07 by nschutz           #+#    #+#             */
-/*   Updated: 2023/08/22 11:50:07 by nschutz          ###   ########.fr       */
+/*   Updated: 2023/08/31 12:05:58 by nschutz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (ft_printf("Invalid number of arguments"));
 	if (!checker_file(argv))
-		return (ft_printf("Invalid file names"));
+		return (ft_printf("Invalid file name"));
 	fd1 = open (argv[1], O_RDONLY);
-	fd2 = open (argv[4], O_WRONLY);
+	fd2 = open (argv[4], O_WRONLY | O_TRUNC | O_CREAT, S_IRWXU);
+	write (fd2, "test", 4);
 	pipex(argv, envp, fd1, fd2);
 	return (0);
 }

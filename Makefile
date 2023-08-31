@@ -18,6 +18,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@make -C tools/libft
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) tools/libft/libft.a
+	@echo "Linking $(NAME)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c includes/
 	@mkdir -p $(OBJ_DIR)
