@@ -31,34 +31,43 @@ t_cmds	get_cmds(char **argv, char **envp)
 	return (cmds);
 }
 
-int	cmd_one(t_cmds cmds, int fd1, int *f)
+void	cmd_one(t_cmds cmds, int fd1, int *f)
 {
-	dup2(fd1, STDIN_FILENO);
-	dup2(f[1], STDOUT_FILENO);
+	if (dup2(fd1, STDIN_FILENO) == -1 || dup2(f[1], STDOUT_FILENO) == -1)
+	{
+		close (f[0]);
+		close (fd1);
+		perror("dup");
+		free_cmds(cmds);
+		return ;
+	}
 	close (f[0]);
 	if (execve(cmds.path1, cmds.cmd1, cmds.envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
 		close(fd1);
-		return (0);
+		return ;
 	}
 	close (fd1);
-	return (1);
 }
 
-int	cmd_two(t_cmds cmds, int fd2, int *f)
+void	cmd_two(t_cmds cmds, int fd2, int *f)
 {
-	dup2(fd2, STDOUT_FILENO);
-	dup2(f[0], STDIN_FILENO);
+	if (dup2(fd2, STDOUT_FILENO) == -1 || dup2(f[0], STDIN_FILENO) == -1)
+	{
+		close (f[1]);
+		close (fd2);
+		perror("dup");
+		free_cmds(cmds);
+		return ;
+	}
 	close (f[1]);
+	close (fd2);
 	if (execve(cmds.path2, cmds.cmd2, cmds.envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
-		close(fd2);
-		return (0);
+		return ;
 	}
-	close (fd2);
-	return (1);
 }

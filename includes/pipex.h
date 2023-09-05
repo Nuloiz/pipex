@@ -39,8 +39,8 @@ int		checker_cmd(char **argv, char **envp);
 char	*find_path(char *cmd, char **envp);
 void	pipex(char **argv, char **envp, int fd1, int fd2);
 t_cmds	get_cmds(char **argv, char **envp);
-int		cmd_one(t_cmds cmds, int fd1, int *f);
-int		cmd_two(t_cmds cmds, int fd2, int *f);
+void	cmd_one(t_cmds cmds, int fd1, int *f);
+void	cmd_two(t_cmds cmds, int fd2, int *f);
 void	free_array(char **array);
 void	free_cmds(t_cmds cmds);
 

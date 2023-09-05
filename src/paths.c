@@ -39,7 +39,7 @@ char	*find_path(char *cmd, char **envp)
 		return (NULL);
 	new_path = ft_split(path, ':');
 	i = 0;
-	while (new_path)
+	while (new_path[i])
 	{
 		path_i = ft_strjoin(new_path[i], "/");
 		path_c = ft_strjoin(path_i, cmd);
