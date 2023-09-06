@@ -35,4 +35,6 @@ void	free_cmds(t_cmds cmds)
 		free(cmds.path1);
 	if (cmds.path2)
 		free(cmds.path2);
+	close(cmds.fd_input);
+	close(cmds.fd_output);
 }

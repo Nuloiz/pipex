@@ -12,10 +12,8 @@
 
 #include "pipex.h"
 
-t_cmds	get_cmds(char **argv, char **envp)
+void	get_cmds(char **argv, char **envp, t_cmds cmds)
 {
-	t_cmds	cmds;
-
 	cmds.failed = 0;
 	cmds.cmd1 = ft_split(argv[2], ' ');
 	cmds.cmd2 = ft_split(argv[3], ' ');
@@ -30,15 +28,13 @@ t_cmds	get_cmds(char **argv, char **envp)
 	else
 		cmds.failed = 0;
 	cmds.envp = envp;
-	return (cmds);
 }
 
-void	cmd_one(t_cmds cmds, int fd1, int *f)
+void	cmd_one(t_cmds cmds, int *f)
 {
-	if (dup2(fd1, STDIN_FILENO) == -1 || dup2(f[1], STDOUT_FILENO) == -1)
+	if (dup2(cmds.fd_input, STDIN_FILENO) == -1 || dup2(f[1], STDOUT_FILENO) == -1)
 	{
 		close (f[0]);
-		close (fd1);
 		perror("dup");
 		free_cmds(cmds);
 		exit(1);
@@ -48,24 +44,21 @@ void	cmd_one(t_cmds cmds, int fd1, int *f)
 	{
 		perror("execve");
 		free_cmds(cmds);
-		close(fd1);
 		exit(1);
 	}
-	close (fd1);
 }
 
-void	cmd_two(t_cmds cmds, int fd2, int *f)
+void	cmd_two(t_cmds cmds, int *f)
 {
-	if (dup2(fd2, STDOUT_FILENO) == -1 || dup2(f[0], STDIN_FILENO) == -1)
+	if (dup2(cmds.fd_output, STDOUT_FILENO) == -1 || \
+		dup2(f[0], STDIN_FILENO) == -1)
 	{
 		close (f[1]);
-		close (fd2);
 		perror("dup");
 		free_cmds(cmds);
 		exit(1);
 	}
 	close (f[1]);
-	close (fd2);
 	if (!cmds.path2 || execve(cmds.path2, cmds.cmd2, cmds.envp) == -1)
 	{
 		perror("execve");

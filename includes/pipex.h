@@ -31,16 +31,18 @@ typedef struct s_cmds
 	char	*path2;
 	char	**envp;
 	int		failed;
+	int		fd_input;
+	int		fd_output;
 }				t_cmds;
 
 int		main(int argc, char **argv, char **envp);
 int		checker_file(char **argv);
 int		checker_cmd(char **argv, char **envp);
 char	*find_path(char *cmd, char **envp);
-void	pipex(char **argv, char **envp, int fd1, int fd2);
-t_cmds	get_cmds(char **argv, char **envp);
-void	cmd_one(t_cmds cmds, int fd1, int *f);
-void	cmd_two(t_cmds cmds, int fd2, int *f);
+void	pipex(t_cmds pipex);
+void	get_cmds(char **argv, char **envp, t_cmds pipex);
+void	cmd_one(t_cmds cmds, int *f);
+void	cmd_two(t_cmds cmds, int *f);
 void	free_array(char **array);
 void	free_cmds(t_cmds cmds);
 

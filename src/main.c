@@ -14,8 +14,7 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	fd1;
-	int	fd2;
+	t_cmds	cmds;
 
 	if (!envp)
 		return (perror("envp is empty"), 127);
@@ -23,12 +22,13 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("Invalid number of arguments"), 1);
 	if (!checker_file(argv))
 		return (perror("Invalid file name"), 127);
-	fd1 = open (argv[1], O_RDONLY);
-	if (fd1 == -1)
+	cmds.fd_input = open (argv[1], O_RDONLY);
+	if (cmds.fd_input == -1)
 		return (perror("1. File open failed"), 127);
-	fd2 = open (argv[4], O_WRONLY | O_TRUNC | O_CREAT, 00644);
-	if (fd2 == -1)
+	cmds.fd_output = open (argv[4], O_WRONLY | O_TRUNC | O_CREAT, 00644);
+	if (cmds.fd_output == -1)
 		return (perror("2. File open failed"), 127);
-	pipex(argv, envp, fd1, fd2);
+	get_cmds(argv, envp, cmds);
+	pipex(cmds);
 	return (0);
 }

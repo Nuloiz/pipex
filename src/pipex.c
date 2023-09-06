@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	forking(t_cmds cmds, int *f, int fd1, int fd2)
+void	forking(t_cmds cmds, int *f)
 {
 	pid_t	child;
 
@@ -24,25 +24,23 @@ void	forking(t_cmds cmds, int *f, int fd1, int fd2)
 		exit(1);
 	}
 	if (child == 0)
-		cmd_one(cmds, fd1, f);
+		cmd_one(cmds, f);
 	waitpid(child, NULL, WNOHANG);
 	if (child > 0)
-		cmd_two(cmds, fd2, f);
+		cmd_two(cmds, f);
 }
 
-void	pipex(char **argv, char **envp, int fd1, int fd2)
+void	pipex(t_cmds cmds)
 {
-	t_cmds	cmds;
 	int		f[2];
-	int		pipex;
+	int		piping;
 
-	cmds = get_cmds(argv, envp);
-	pipex = pipe(f);
-	if (pipex == -1)
+	piping = pipe(f);
+	if (piping == -1)
 	{
 		perror("pipe");
 		exit(1);
 	}
-	forking(cmds, f, fd1, fd2);
+	forking(cmds, f);
 	free_cmds(cmds);
 }
