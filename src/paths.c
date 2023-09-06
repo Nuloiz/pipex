@@ -17,6 +17,8 @@ static char	*get_path(char **envp)
 	int		i;
 
 	i = 0;
+	if (*envp == NULL)
+		return ("/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:");
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], "PATH", 4))

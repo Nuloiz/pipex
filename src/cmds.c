@@ -21,12 +21,14 @@ t_cmds	get_cmds(char **argv, char **envp)
 	cmds.cmd2 = ft_split(argv[3], ' ');
 	cmds.path1 = find_path(cmds.cmd1[0], envp);
 	cmds.path2 = find_path(cmds.cmd2[0], envp);
-	if (!cmds.cmd1 || !cmds.cmd2 || !cmds.path1 || !cmds.path2)
-	{
-		free_cmds(cmds);
+	if (!cmds.cmd1 && !cmds.cmd2)
+		cmds.failed = 3;
+	else if (!cmds.cmd1)
 		cmds.failed = 1;
-		return (cmds);
-	}
+	else if (!cmds.cmd2)
+		cmds.failed = 2;
+	else
+		cmds.failed = 0;
 	cmds.envp = envp;
 	return (cmds);
 }
@@ -39,15 +41,15 @@ void	cmd_one(t_cmds cmds, int fd1, int *f)
 		close (fd1);
 		perror("dup");
 		free_cmds(cmds);
-		return ;
+		exit(1);
 	}
 	close (f[0]);
-	if (execve(cmds.path1, cmds.cmd1, cmds.envp) == -1)
+	if (!cmds.path1 || execve(cmds.path1, cmds.cmd1, cmds.envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
 		close(fd1);
-		return ;
+		exit(1);
 	}
 	close (fd1);
 }
@@ -60,14 +62,14 @@ void	cmd_two(t_cmds cmds, int fd2, int *f)
 		close (fd2);
 		perror("dup");
 		free_cmds(cmds);
-		return ;
+		exit(1);
 	}
 	close (f[1]);
 	close (fd2);
-	if (execve(cmds.path2, cmds.cmd2, cmds.envp) == -1)
+	if (!cmds.path2 || execve(cmds.path2, cmds.cmd2, cmds.envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
-		return ;
+		exit(1);
 	}
 }

@@ -12,28 +12,21 @@
 
 #include "pipex.h"
 
-void	child_process(t_cmds cmds, int *f, int fd1, int fd2)
+void	forking(t_cmds cmds, int *f, int fd1, int fd2)
 {
-	pid_t	younger_child;
-	pid_t	older_child;
+	pid_t	child;
 
-	younger_child = fork();
-	if (younger_child == -1)
+	child = fork();
+	if (child == -1)
 	{
 		perror("fork");
 		free_cmds(cmds);
-		return ;
+		exit(1);
 	}
-	else if (younger_child == 0)
+	if (child == 0)
 		cmd_one(cmds, fd1, f);
-	older_child = fork();
-	if (older_child == -1)
-	{
-		perror("fork");
-		free_cmds(cmds);
-		return ;
-	}
-	else if (older_child == 0)
+	waitpid(child, NULL, WNOHANG);
+	if (child > 0)
 		cmd_two(cmds, fd2, f);
 }
 
@@ -41,11 +34,15 @@ void	pipex(char **argv, char **envp, int fd1, int fd2)
 {
 	t_cmds	cmds;
 	int		f[2];
+	int		pipex;
 
 	cmds = get_cmds(argv, envp);
-	if (cmds.failed == 1)
-		return ;
-	pipe(f);
-	child_process(cmds, f, fd1, fd2);
+	pipex = pipe(f);
+	if (pipex == -1)
+	{
+		perror("pipe");
+		exit(1);
+	}
+	forking(cmds, f, fd1, fd2);
 	free_cmds(cmds);
 }
