@@ -54,5 +54,5 @@ char	*find_path(char *cmd, char **envp)
 		free(path_c);
 		i++;
 	}
-	return (NULL);
+	return (free_array(new_path), NULL);
 }
