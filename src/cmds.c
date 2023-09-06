@@ -47,6 +47,7 @@ void	cmd_one(t_cmds *cmds, int *f)
 		free_cmds(cmds);
 		exit(1);
 	}
+	free_cmds(cmds);
 }
 
 void	cmd_two(t_cmds *cmds, int *f)
@@ -66,4 +67,5 @@ void	cmd_two(t_cmds *cmds, int *f)
 		free_cmds(cmds);
 		exit(1);
 	}
+	free_cmds(cmds);
 }

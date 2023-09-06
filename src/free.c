@@ -27,9 +27,9 @@ void	free_array(char **array)
 
 void	free_cmds(t_cmds *cmds)
 {
-	if (cmds->failed == 1 || cmds->failed == 3)
+	if (cmds->failed == 2 || cmds->failed == 0)
 		free_array(cmds->cmd1);
-	if (cmds->failed == 1 || cmds->failed == 3)
+	if (cmds->failed == 2 || cmds->failed == 0)
 		free_array(cmds->cmd2);
 	if (cmds->path1)
 		free(cmds->path1);

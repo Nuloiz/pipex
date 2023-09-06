@@ -39,6 +39,7 @@ void	pipex(t_cmds *cmds)
 	if (piping == -1)
 	{
 		perror("pipe");
+		free_cmds(cmds);
 		exit(1);
 	}
 	forking(cmds, f);
