@@ -25,16 +25,16 @@ void	free_array(char **array)
 	free(array);
 }
 
-void	free_cmds(t_cmds cmds)
+void	free_cmds(t_cmds *cmds)
 {
-	if (cmds.failed == 1 || cmds.failed == 3)
-		free_array(cmds.cmd1);
-	if (cmds.failed == 1 || cmds.failed == 3)
-		free_array(cmds.cmd2);
-	if (cmds.path1)
-		free(cmds.path1);
-	if (cmds.path2)
-		free(cmds.path2);
-	close(cmds.fd_input);
-	close(cmds.fd_output);
+	if (cmds->failed == 1 || cmds->failed == 3)
+		free_array(cmds->cmd1);
+	if (cmds->failed == 1 || cmds->failed == 3)
+		free_array(cmds->cmd2);
+	if (cmds->path1)
+		free(cmds->path1);
+	if (cmds->path2)
+		free(cmds->path2);
+	close(cmds->fd_input);
+	close(cmds->fd_output);
 }

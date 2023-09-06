@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	cmds.fd_output = open (argv[4], O_WRONLY | O_TRUNC | O_CREAT, 00644);
 	if (cmds.fd_output == -1)
 		return (perror("2. File open failed"), 127);
-	get_cmds(argv, envp, cmds);
-	pipex(cmds);
+	get_cmds(argv, envp, &cmds);
+	pipex(&cmds);
 	return (0);
 }

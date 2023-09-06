@@ -39,11 +39,11 @@ int		main(int argc, char **argv, char **envp);
 int		checker_file(char **argv);
 int		checker_cmd(char **argv, char **envp);
 char	*find_path(char *cmd, char **envp);
-void	pipex(t_cmds pipex);
-void	get_cmds(char **argv, char **envp, t_cmds pipex);
-void	cmd_one(t_cmds cmds, int *f);
-void	cmd_two(t_cmds cmds, int *f);
+void	pipex(t_cmds *pipex);
+void	get_cmds(char **argv, char **envp, t_cmds *pipex);
+void	cmd_one(t_cmds *cmds, int *f);
+void	cmd_two(t_cmds *cmds, int *f);
 void	free_array(char **array);
-void	free_cmds(t_cmds cmds);
+void	free_cmds(t_cmds *cmds);
 
 #endif

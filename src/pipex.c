@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-void	forking(t_cmds cmds, int *f)
+void	forking(t_cmds *cmds, int *f)
 {
 	pid_t	child;
 
@@ -30,7 +30,7 @@ void	forking(t_cmds cmds, int *f)
 		cmd_two(cmds, f);
 }
 
-void	pipex(t_cmds cmds)
+void	pipex(t_cmds *cmds)
 {
 	int		f[2];
 	int		piping;
