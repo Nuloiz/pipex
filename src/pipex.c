@@ -14,20 +14,28 @@
 
 void	forking(t_cmds *cmds, int *f)
 {
-	pid_t	child;
+	pid_t	younger_child;
+	pid_t	older_child;
 
-	child = fork();
-	if (child == -1)
+	younger_child = fork();
+	if (younger_child == -1)
 	{
 		perror("fork");
 		free_cmds(cmds);
 		exit(1);
 	}
-	if (child == 0)
+	if (younger_child == 0)
 		cmd_one(cmds, f);
-	waitpid(child, NULL, WNOHANG);
-	if (child > 0)
+	older_child = fork();
+	if (older_child == -1)
+	{
+		perror("fork");
+		free_cmds(cmds);
+		exit(1);
+	}
+	if (older_child > 0)
 		cmd_two(cmds, f);
+	waitpid(-1, f, WNOWAIT);
 }
 
 void	pipex(t_cmds *cmds)

@@ -41,12 +41,14 @@ void	cmd_one(t_cmds *cmds, int *f)
 		exit(1);
 	}
 	close (f[0]);
-	if (!cmds->path1 || execve(cmds->path1, cmds->cmd1, cmds->envp) == -1)
+	if (execve(cmds->path1, cmds->cmd1, cmds->envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
+		close(f[1]);
 		exit(1);
 	}
+	close(f[1]);
 	free_cmds(cmds);
 }
 
@@ -61,11 +63,14 @@ void	cmd_two(t_cmds *cmds, int *f)
 		exit(1);
 	}
 	close (f[1]);
-	if (!cmds->path2 || execve(cmds->path2, cmds->cmd2, cmds->envp) == -1)
+	close (f[0]);
+	if (execve(cmds->path2, cmds->cmd2, cmds->envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
-		exit(1);
+		close (f[0]);
+		exit(127);
 	}
+	close (f[0]);
 	free_cmds(cmds);
 }

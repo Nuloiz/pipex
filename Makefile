@@ -17,7 +17,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@make -C tools/libft
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) tools/libft/libft.a
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) tools/libft/libft.a
 	@echo "Linking $(NAME)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c includes/
@@ -36,10 +36,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-.PRECIOUS: $(OBJ_DIR)/%.o
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(@D)
-	@$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
-	@echo "Compiling $<"
