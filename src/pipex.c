@@ -35,7 +35,10 @@ void	forking(t_cmds *cmds, int *f)
 	}
 	if (older_child > 0)
 		cmd_two(cmds, f);
-	waitpid(-1, f, WNOWAIT);
+	close(f[1]);
+	close (f[0]);
+	free_cmds(cmds);
+	waitpid(-1, f, WNOHANG);
 }
 
 void	pipex(t_cmds *cmds)
@@ -51,5 +54,4 @@ void	pipex(t_cmds *cmds)
 		exit(1);
 	}
 	forking(cmds, f);
-	free_cmds(cmds);
 }

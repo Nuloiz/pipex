@@ -6,7 +6,7 @@
 /*   By: nschutz <nschutz@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 13:34:34 by nschutz           #+#    #+#             */
-/*   Updated: 2023/08/24 15:57:45 by nschutz          ###   ########.fr       */
+/*   Updated: 2023/09/08 11:52:21 by nschutz          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,19 @@ void	cmd_one(t_cmds *cmds, int *f)
 		free_cmds(cmds);
 		exit(1);
 	}
+	close (cmds->fd_output);
+	close (cmds->fd_input);
+	close(f[1]);
 	close (f[0]);
 	if (execve(cmds->path1, cmds->cmd1, cmds->envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
-		close(f[1]);
+		close (f[1]);
+		close (f[0]);
 		exit(1);
 	}
 	close(f[1]);
-	free_cmds(cmds);
 }
 
 void	cmd_two(t_cmds *cmds, int *f)
@@ -62,15 +65,17 @@ void	cmd_two(t_cmds *cmds, int *f)
 		free_cmds(cmds);
 		exit(1);
 	}
-	close (f[1]);
+	close (cmds->fd_input);
+	close (cmds->fd_output);
+	close(f[1]);
 	close (f[0]);
 	if (execve(cmds->path2, cmds->cmd2, cmds->envp) == -1)
 	{
 		perror("execve");
 		free_cmds(cmds);
 		close (f[0]);
+		close (f[1]);
 		exit(127);
 	}
-	close (f[0]);
-	free_cmds(cmds);
+	close(f[0]);
 }
