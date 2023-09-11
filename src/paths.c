@@ -37,7 +37,7 @@ char	*find_path(char *cmd, char **envp)
 	char	**new_path;
 
 	path = get_path(envp);
-	if (!path)
+	if (!path | !cmd)
 		return (NULL);
 	new_path = ft_split(path, ':');
 	i = 0;

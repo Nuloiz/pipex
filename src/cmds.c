@@ -42,8 +42,15 @@ void	cmd_one(t_cmds *cmds, int *f)
 	}
 	close (cmds->fd_output);
 	close (cmds->fd_input);
-	close(f[1]);
+	close (f[1]);
 	close (f[0]);
+	if (cmds->cmd1)
+	{
+		write (2, cmds->cmd2[0], ft_strlen(cmds->cmd2[0]));
+		write (2, ": command not found", 20);
+		free_cmds(cmds);
+		exit(127);
+	}
 	if (execve(cmds->path1, cmds->cmd1, cmds->envp) == -1)
 	{
 		perror("execve");
@@ -52,7 +59,6 @@ void	cmd_one(t_cmds *cmds, int *f)
 		close (f[0]);
 		exit(1);
 	}
-	close(f[1]);
 }
 
 void	cmd_two(t_cmds *cmds, int *f)
@@ -67,8 +73,15 @@ void	cmd_two(t_cmds *cmds, int *f)
 	}
 	close (cmds->fd_input);
 	close (cmds->fd_output);
-	close(f[1]);
+	close (f[1]);
 	close (f[0]);
+	if (cmds->cmd1)
+	{
+		write (2, cmds->cmd1[0], ft_strlen(cmds->cmd1[0]));
+		write (2, ": command not found", 20);
+		free_cmds(cmds);
+		exit(127);
+	}
 	if (execve(cmds->path2, cmds->cmd2, cmds->envp) == -1)
 	{
 		perror("execve");
@@ -77,5 +90,4 @@ void	cmd_two(t_cmds *cmds, int *f)
 		close (f[1]);
 		exit(127);
 	}
-	close(f[0]);
 }
